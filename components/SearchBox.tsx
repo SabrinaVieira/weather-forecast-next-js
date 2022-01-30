@@ -1,22 +1,25 @@
 import { match } from 'assert';
 import React, { useEffect, useState } from 'react';
 import cities from '../lib/city.list.json'
+import Link from 'next/link'
 
- interface ICity {
+interface ICity {
   id: number,
   name: string,
   state: string,
   country: string,
-   coord: {
+  coord: {
     lon: number,
-     lat: number,
-   }
- }
+    lat: number,
+  },
+  slug?:string,
+}
 
 const citiesArray = cities as ICity[];
 
 export default function SearchBox() {
   const [query, setQuery] = useState("");
+  const [results, setResults] = useState<ICity[]>([]);
 
   useEffect(() => {
 
@@ -36,18 +39,48 @@ export default function SearchBox() {
 
         const macth = city.name.toLowerCase().startsWith(value.toLowerCase());
 
-        if(macth){
-          matchingCities.push(city)
+        if (macth) {
+          const cityData = {
+            ...city,
+            slug: `${city.name.toLowerCase().replace(/ /g, "-")}-${city.id}`
+          }
+          matchingCities.push(cityData)
         }
       }
     }
-  console.log(matchingCities)
+    console.log(matchingCities)
+    return setResults(matchingCities)
 
   }
 
   console.log(query)
+  console.log({ results })
 
-  return <div>
+  return (
+  <div className='search'>
     <input type="text" onChange={handleChange} />
-  </div>;
+    {query.length > 3 && (
+      <ul>
+        {results.length > 0
+          ? (
+            results.map((city) => (
+              <li key={city.slug}>
+                < Link href={`/location/${city.slug}`}>
+                  <a>
+                    {city.name}
+                    {city.state ? `, ${city.state}` : ''}
+                    <span>({city.country})</span>
+                  </a>
+                </Link>
+              </li>
+            ))
+          )
+          : (
+            <li className="serch__no-result">
+              No results found
+            </li>
+          )}
+      </ul>
+    )}
+  </div>);
 }
