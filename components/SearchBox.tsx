@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import cities from '../lib/city.list.json'
 import Link from 'next/link'
 
-interface ICity {
+export interface ICity {
   id: number,
   name: string,
   state: string,

@@ -3,4 +3,9 @@ const nextConfig = {
   reactStrictMode: true,
 }
 
-module.exports = nextConfig
+module.exports = {
+  nextConfig, 
+    env: {
+    customKey: process.env.API_KEY,
+  },
+}
