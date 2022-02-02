@@ -9,8 +9,8 @@ export interface ICity {
   state: string,
   country: string,
   coord: {
-    lon: number,
-    lat: number,
+    lon: string,
+    lat: string,
   },
   slug?:string,
 }
@@ -48,13 +48,13 @@ export default function SearchBox() {
         }
       }
     }
-    console.log(matchingCities)
+    // console.log(matchingCities)
     return setResults(matchingCities)
 
   }
 
-  console.log(query)
-  console.log({ results })
+  // console.log(query)
+  // console.log({ results })
 
   return (
   <div className='search'>
@@ -66,6 +66,7 @@ export default function SearchBox() {
             results.map((city) => (
               <li key={city.slug}>
                 < Link href={`/location/${city.slug}`}>
+                {/* < Link href={`/location/${city.slug}`}> */}
                   <a>
                     {city.name}
                     {city.state ? `, ${city.state}` : ''}
