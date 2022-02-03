@@ -26,11 +26,11 @@ export async function getServerSideProps(context: any) {
     // console.log(data)
     // console.log(data.hourly)
 
-    // const slug = params.city;
+    const slug = params.city;
 
     return {
         props: {
-            // slug: slug,
+            slug: slug,
             // data: data,
             data,
             city: city,
@@ -83,7 +83,7 @@ export default function City({
     hourlyWeather }: any): JSX.Element {
     return <div>
         <h1>City Page</h1>
-        {/* {console.log({data})}
-        {console.log({hourlyWeather})} */}
+        {console.log({data})}
+        {console.log({hourlyWeather})}
     </div>;
 }
