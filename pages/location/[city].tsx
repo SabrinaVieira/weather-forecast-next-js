@@ -1,6 +1,7 @@
 import React from 'react';
 import { ICity } from '../../components/SearchBox';
 import cities from '../../lib/city.list.json'
+import { IHourly, IWeatherData } from './interdace';
 
 const citiesArray = cities as ICity[];
 
@@ -14,7 +15,7 @@ export async function getServerSideProps(context: any) {
     }
     
     const res = await fetch(`https://api.openweathermap.org/data/2.5/onecall?lon=${city.coord.lon}&lat=${city.coord.lat}&appid=${process.env.API_KEY}&exclude=minutely&units=metric`)
-    const data = await res.json();
+    const data: IWeatherData = await res.json();
 
     if(!data){
         return {
@@ -23,14 +24,40 @@ export async function getServerSideProps(context: any) {
     }
 
     // console.log(data)
-    const slug = params.city;
+    // console.log(data.hourly)
+
+    // const slug = params.city;
 
     return {
         props: {
-            slug: slug,
-            data: data,
+            // slug: slug,
+            // data: data,
+            data,
+            city: city,
+            currentWeather: data.current,
+            dailyWeather: data.daily,
+            hourlyWeather: getHourlyWhether(data.hourly)
         }
     }
+}
+
+const getHourlyWhether = (hourlyData: IHourly[]) => {
+    // console.log(hourlyData.dt) <== dt nao exite em Hourly[]
+    const current = new Date();
+    current.setHours(current.getHours(), 0,0,0);
+    
+    const tomorrow = new Date(current);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setHours(0, 0, 0, 0)
+    /// divide  by 1000 get seconds
+    const currentTimeStemp = Math.floor(current.getTime() / 1000);
+    const currentTomorrowTimeStemp = Math.floor(tomorrow.getTime()/ 1000);
+    
+
+    const TodayData = hourlyData.filter((data) => data.dt < currentTomorrowTimeStemp && data.dt);
+    //console.log(TodayData.length)
+
+    return TodayData;
 }
 
 function getCity(params: string): ICity | any {
@@ -48,10 +75,15 @@ function getCity(params: string): ICity | any {
     return city
 }
 
-export default function City({ slug, data }: any): JSX.Element {
+export default function City({ 
+    data,
+    city,
+    currentWeather,
+    dailyWeather,
+    hourlyWeather }: any): JSX.Element {
     return <div>
         <h1>City Page</h1>
-        <h2>{slug}</h2>
-        {console.log(data)}
+        {/* {console.log({data})}
+        {console.log({hourlyWeather})} */}
     </div>;
 }
