@@ -71,7 +71,7 @@
         icon: string;
     }
 
-    export interface Daily {
+    export interface IDaily {
         dt: number;
         sunrise: number;
         sunset: number;
@@ -101,7 +101,7 @@
         timezone_offset: number;
         current: Current;
         hourly: IHourly[];
-        daily: Daily[];
+        daily: IDaily[];
     }
 
 
