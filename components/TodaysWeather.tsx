@@ -1,5 +1,6 @@
 import moment from 'moment';
 import Head from 'next/head';
+import Image from 'next/image';
 import React from 'react';
 import { IDaily } from '../pages/location/interdace';
 import { ICity } from './SearchBox';
@@ -11,7 +12,7 @@ interface ITodaysWeather {
 
 export default function TodaysWeather({ city, weather }: ITodaysWeather) {
     // console.log(city)
-    console.log('weather', weather)
+    console.log({weather})
     // console.log(weather.temp.max)
     return (
         <div className='today'>
@@ -28,20 +29,27 @@ export default function TodaysWeather({ city, weather }: ITodaysWeather) {
                     </h2>
 
                     <div className="today__sun-times">
-                    <div>
-                        <span>Surise</span>
-                        <span>{moment.unix(weather?.sunrise).format("MM/DD/YYYY hh:mm a")}</span>
+                        <div>
+                            <span>Surise</span>
+                            <span>{moment.unix(weather?.sunrise).format("LT")}</span>
 
-                    </div>
+                        </div>
 
-                    <div>
-                        <span>Sunset</span>
-                        <span>{moment.unix(weather?.sunset).format("MM/DD/YYYY hh:mm a")}</span>
+                        <div>
+                            <span>Sunset</span>
+                            <span>{moment.unix(weather?.sunset).format("LT")}</span>
 
+                        </div>
                     </div>
                 </div>
+
+                <div className="today__right-content">
+                    <div className="today__icon-wrapper">
+                        <Image
+                            src={`https://openweathermap.org/img/wn/${weather?.weather[0].icon}@2x.png`} alt="Weather Icon" layout='fill' />
+                        <h3>{weather?.weather[0].description}</h3>
+                    </div>
                 </div>
-               
 
             </div>
 

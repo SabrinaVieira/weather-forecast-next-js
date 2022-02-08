@@ -91,7 +91,7 @@ export default function City({
     currentWeather,
     dailyWeather,
     hourlyWeather }: any): JSX.Element {
-    console.log('dailyWeather[0]', dailyWeather[0])
+    // console.log('dailyWeather[0]', dailyWeather[0])
     return <div>
         <Head>
             <title>{city.name}</title>
