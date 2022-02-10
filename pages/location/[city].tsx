@@ -1,10 +1,12 @@
+import moment from 'moment-timezone';
 import Head from 'next/head';
-import { title } from 'process';
 import React from 'react';
+import HourlyWeather from '../../components/HourlyWeather';
 import { ICity } from '../../components/SearchBox';
-import TodaysWeather from '../../components/todaysWeather';
+import TodaysWeather from '../../components/TodaysWeather';
+import WeeklyWeather from '../../components/WeeklyWeather';
 import cities from '../../lib/city.list.json'
-import { IHourly, IWeatherData } from './interdace';
+import { Current, IDaily, IHourly, IWeatherData } from './interdace';
 
 const citiesArray = cities as ICity[];
 
@@ -28,40 +30,42 @@ export async function getServerSideProps(context: any) {
     }
 
     // console.log(data)
-    // console.log(data.hourly)
+    // console.log(data.timezone)
 
     const slug = params.city;
-
+    const hourlyWeather = getHourlyWhether(data?.hourly, data?.timezone)
     return {
         props: {
-            slug: slug,
             // data: data,
             // data,
+            slug: slug,
             city: city,
+            timezone: data.timezone,
             currentWeather: data.current,
             dailyWeather: data.daily, // IDaily[]
-            hourlyWeather: getHourlyWhether(data.hourly)
+            hourlyWeather: hourlyWeather,
         }
     }
 }
 
-const getHourlyWhether = (hourlyData: IHourly[]) => {
-    // console.log(hourlyData.dt) <== dt nao exite em Hourly[]
-    const current = new Date();
-    current.setHours(current.getHours(), 0, 0, 0);
+const getHourlyWhether = (hourlyData: IHourly[], timezone: string) => {
+    const endOfDay = moment().tz(timezone).endOf("day").valueOf();
+    const endOfdayTimeStamp = Math.floor(endOfDay / 1000);
+    const todayData = hourlyData.filter((data) => data.dt < endOfdayTimeStamp);
+    // // console.log(hourlyData.dt) <== dt nao exite em Hourly[]
+    // const current = new Date();
+    // current.setHours(current.getHours(), 0, 0, 0);
 
-    const tomorrow = new Date(current);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    tomorrow.setHours(0, 0, 0, 0)
-    /// divide  by 1000 get seconds
-    const currentTimeStemp = Math.floor(current.getTime() / 1000);
-    const currentTomorrowTimeStemp = Math.floor(tomorrow.getTime() / 1000);
+    // const tomorrow = new Date(current);
+    // tomorrow.setDate(tomorrow.getDate() + 1);
+    // tomorrow.setHours(0, 0, 0, 0)
+    // /// divide  by 1000 get seconds
+    // const currentTimeStemp = Math.floor(current.getTime() / 1000);
+    // const currentTomorrowTimeStemp = Math.floor(tomorrow.getTime() / 1000);
+    // const TodayData = hourlyData?.filter((data) => data.dt < currentTomorrowTimeStemp && data.dt);
+    // //console.log(TodayData.length)
 
-
-    const TodayData = hourlyData?.filter((data) => data.dt < currentTomorrowTimeStemp && data.dt);
-    //console.log(TodayData.length)
-
-    return TodayData;
+    return todayData;
 }
 
 function getCity(params: string): ICity | any {
@@ -86,11 +90,20 @@ function getCity(params: string): ICity | any {
 //     hourlyWeather
 // }
 
+interface ICityPage {
+    city:  ICity,
+    timezone: string,
+    currentWeather: Current,
+    dailyWeather: IDaily[],
+    hourlyWeather: IHourly[], 
+}
+
 export default function City({
     city,
+    timezone,
     currentWeather,
     dailyWeather,
-    hourlyWeather }: any): JSX.Element {
+    hourlyWeather }: ICityPage): JSX.Element {
     // console.log('dailyWeather[0]', dailyWeather[0])
     return <div>
         <Head>
@@ -99,8 +112,9 @@ export default function City({
 
         <div className="page-wrapper">
             <div className="container">
-                <TodaysWeather city={city} weather={dailyWeather[0]} />
-
+                <TodaysWeather city={city} dailyWeather={dailyWeather[0]} timezone={timezone}/>
+                <HourlyWeather hourlyWeather={hourlyWeather} timezone={timezone}/>
+                <WeeklyWeather weeklyWeather={dailyWeather} timezone={timezone}/>
             </div>
         </div>
     </div>;
