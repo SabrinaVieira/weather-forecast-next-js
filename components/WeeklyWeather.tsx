@@ -17,7 +17,7 @@ export default function WeeklyWeather({ weeklyWeather, timezone }: IWeeklyWeathe
                         }
 
                         return (
-                            <div className="weekly__card">
+                            <div className="weekly__card" key={weather.dt}>
                                 <div className="weekly__inner">
                                     <div className="weekly__left-content">
                                         <div>

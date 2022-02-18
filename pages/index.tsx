@@ -1,5 +1,6 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
+import FamousPlace from '../components/FamousPlace'
 import SearchBox from '../components/SearchBox'
 
 const Home: NextPage = () => {
@@ -18,7 +19,8 @@ const Home: NextPage = () => {
 
       <div className="home">
         <div className="container">
-        <SearchBox/>
+        <SearchBox placeholder="Search for a city..."/>
+        <FamousPlace />
         </div>
       </div>
     </div>

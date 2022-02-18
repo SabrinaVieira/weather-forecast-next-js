@@ -1,8 +1,9 @@
 import moment from 'moment-timezone';
 import Head from 'next/head';
+import Link from 'next/link';
 import React from 'react';
 import HourlyWeather from '../../components/HourlyWeather';
-import { ICity } from '../../components/SearchBox';
+import SearchBox, { ICity } from '../../components/SearchBox';
 import TodaysWeather from '../../components/TodaysWeather';
 import WeeklyWeather from '../../components/WeeklyWeather';
 import cities from '../../lib/city.list.json'
@@ -91,11 +92,11 @@ function getCity(params: string): ICity | any {
 // }
 
 interface ICityPage {
-    city:  ICity,
+    city: ICity,
     timezone: string,
     currentWeather: Current,
     dailyWeather: IDaily[],
-    hourlyWeather: IHourly[], 
+    hourlyWeather: IHourly[],
 }
 
 export default function City({
@@ -112,9 +113,19 @@ export default function City({
 
         <div className="page-wrapper">
             <div className="container">
-                <TodaysWeather city={city} dailyWeather={dailyWeather[0]} timezone={timezone}/>
-                <HourlyWeather hourlyWeather={hourlyWeather} timezone={timezone}/>
-                <WeeklyWeather weeklyWeather={dailyWeather} timezone={timezone}/>
+                <div >
+                    <Link href="/">
+                        &larr; Home
+                    </Link>
+                    <style jsx>{`
+                        div { margin-bottom: 2rem; }
+                        `}
+                    </style>
+                </div>
+                <SearchBox placeholder="Search for another location..." />
+                <TodaysWeather city={city} dailyWeather={dailyWeather[0]} timezone={timezone} />
+                <HourlyWeather hourlyWeather={hourlyWeather} timezone={timezone} />
+                <WeeklyWeather weeklyWeather={dailyWeather} timezone={timezone} />
             </div>
         </div>
     </div>;
