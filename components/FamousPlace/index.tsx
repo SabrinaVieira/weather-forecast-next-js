@@ -34,8 +34,8 @@ export default function FamousPlace() {
     <div className="places">
         <div className="places__row">
             {places.length > 0 && 
-            places.map((place, index) => (
-                <div className="places__box">
+            places.map((place) => (
+                <div className="places__box" key={place.name}>
                     <Link href={place.url}>
                         <a >
                             <div className="places__image-wrapper">
