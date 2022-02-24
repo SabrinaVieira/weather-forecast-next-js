@@ -1,8 +1,8 @@
 import moment from 'moment-timezone';
 import Image from 'next/image';
 import React from 'react';
-import { IDaily } from '../pages/location/interdace';
-import { ICity } from './SearchBox';
+import { IDaily } from '../../pages/location/interdace';
+import { ICity } from '../SearchBox';
 
 interface ITodaysWeather {
     city: ICity;

@@ -2,7 +2,6 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import FamousPlace from '../components/FamousPlace'
 import SearchBox from '../components/SearchBox'
-import Test from '../components/Test'
 
 const Home: NextPage = () => {
   return (
@@ -22,7 +21,6 @@ const Home: NextPage = () => {
         <div className="container">
         <SearchBox placeholder="Search for a city..."/>
         <FamousPlace />
-        <Test />
         </div>
       </div>
     </div>

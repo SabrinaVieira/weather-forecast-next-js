@@ -1,9 +1,9 @@
 
 import Link from 'next/link';
-import LondonImage from "../public/images/london.jpg"
-import ParisImage from "../public/images/paris.jpg"
-import TokyoImage from "../public/images/tokyo.jpg"
-import NewYorkImage from "../public/images/new-york.jpg"
+import LondonImage from "../../public/images/london.jpg"
+import ParisImage from "../../public/images/paris.jpg"
+import TokyoImage from "../../public/images/tokyo.jpg"
+import NewYorkImage from "../../public/images/new-york.jpg"
 import Image from 'next/image';
 
 const places = [

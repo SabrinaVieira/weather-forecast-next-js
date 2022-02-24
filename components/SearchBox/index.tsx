@@ -1,6 +1,6 @@
 import { match } from 'assert';
 import React, { useEffect, useState } from 'react';
-import cities from '../lib/city.list.json'
+import cities from '../../lib/city.list.json'
 import Link from 'next/link'
 import Router from 'next/router';
 

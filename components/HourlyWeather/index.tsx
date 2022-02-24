@@ -1,6 +1,6 @@
 import moment from "moment";
 import Image from "next/image";
-import { IHourly } from "../pages/location/interdace";
+import { IHourly } from "../../pages/location/interdace";
 
 interface IHourlyWeather {
     hourlyWeather: IHourly[],
