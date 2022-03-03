@@ -1,4 +1,3 @@
-
 import Link from 'next/link';
 import LondonImage from "../public/images/london.jpg"
 import ParisImage from "../public/images/paris.jpg"
@@ -35,7 +34,7 @@ export default function FamousPlace() {
         <div className="places__row">
             {places.length > 0 && 
             places.map((place, index) => (
-                <div className="places__box">
+                <div className="places__box" key={index}>
                     <Link href={place.url}>
                         <a >
                             <div className="places__image-wrapper">

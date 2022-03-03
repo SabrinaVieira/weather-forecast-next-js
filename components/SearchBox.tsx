@@ -1,6 +1,6 @@
 import { match } from 'assert';
 import React, { useEffect, useState } from 'react';
-import cities from '../lib/city.list.json'
+import cities from '../lib/city.json'
 import Link from 'next/link'
 import Router from 'next/router';
 
@@ -10,13 +10,12 @@ export interface ICity {
   state: string,
   country: string,
   coord: {
-    lon: string,
-    lat: string,
+    lon: number,
+    lat: number,
   },
   slug?: string,
 }
 
-const citiesArray = cities as ICity[];
 
 interface ISearchBox {
   placeholder?: string;
@@ -24,7 +23,7 @@ interface ISearchBox {
 
 export default function SearchBox({ placeholder }: ISearchBox) {
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState<ICity[]>([]);
+  const [results, setResults] = useState<ICity[]>();
 
   useEffect(() => {
     const clearQuery = () => setQuery("");
@@ -40,10 +39,10 @@ export default function SearchBox({ placeholder }: ISearchBox) {
     const { value } = e.target;
     setQuery(value);
 
-    let matchingCities = [];
+    let matchingCities: ICity[] = [];
 
     if (value.length > 3) {
-      for (let city of citiesArray) {
+      for (let city of cities) {
         if (matchingCities.length > 5) {
           break;
         }
@@ -72,7 +71,7 @@ export default function SearchBox({ placeholder }: ISearchBox) {
       <input type="text" onChange={handleChange} placeholder={placeholder ? placeholder : ""} />
       {query.length > 3 && (
         <ul>
-          {results.length > 0
+          {results !== undefined && results.length > 0
             ? (
               results.map((city) => (
                 <li key={city.slug}>
