@@ -1,5 +1,5 @@
 import moment from "moment";
-import { IDaily } from "../pages/location/interdace";
+import { IDaily } from "../interfaces/interface";
 
 interface IWeeklyWeather {
     weeklyWeather: IDaily[],

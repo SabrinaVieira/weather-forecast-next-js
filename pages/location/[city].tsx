@@ -7,7 +7,7 @@ import SearchBox, { ICity } from '../../components/SearchBox';
 import TodaysWeather from '../../components/TodaysWeather';
 import WeeklyWeather from '../../components/WeeklyWeather';
 import cities from '../../lib/city.json'
-import { Current, IDaily, IHourly, IWeatherData } from './interdace';
+import { Current, IDaily, IHourly, IWeatherData } from '../../interfaces/interface';
 
 const citiesArray = cities as ICity[];
 
